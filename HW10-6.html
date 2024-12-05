@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Between Lebesgue–Stieltjes and Riemann Integrals</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            margin: 20px;
+            background: #f9f9f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 25px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        h1 {
+            font-size: 2.4rem;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #34495e;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+        }
+        .step {
+            margin-bottom: 30px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .chart-container {
+            width: 45%;
+            display: inline-block;
+            padding: 10px;
+        }
+        canvas {
+            width: 100%;
+            height: 300px;
+        }
+        .description {
+            margin-top: 20px;
+        }
+        .charts-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .step h2 {
+            margin: 0 0 10px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .log {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .stats {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .stats h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Difference Between Lebesgue–Stieltjes and Riemann Integrals</h1>
+
+    <h2>1. Riemann Integral</h2>
+    <p>
+        The Riemann integral is based on dividing the domain of the function into small intervals and summing the values of the function over these intervals, multiplied by the interval length.
+    </p>
+    <h3>Definition:</h3>
+    <p>
+        Given an interval [<em>a</em>, <em>b</em>], the function <em>f(x)</em> is Riemann integrable if:
+    </p>
+    <pre>
+∫<sub>a</sub><sup>b</sup> f(x) dx = lim (Δx → 0) Σ f(x<sub>i</sub>*) Δx<sub>i</sub>
+    </pre>
+    <ul>
+        <li><em>x<sub>i</sub>*</em> is a point within the interval [<em>x<sub>i-1</sub></em>, <em>x<sub>i</sub></em>].</li>
+        <li><em>Δx<sub>i</sub></em> is the length of the interval.</li>
+    </ul>
+
+    <h3>Main Features:</h3>
+    <ul>
+        <li><strong>Domain-Based Approach:</strong> Divides the domain [<em>a</em>, <em>b</em>] into small intervals.</li>
+        <li><strong>Continuity:</strong> Works well for continuous functions or functions with a finite number of discontinuities.</li>
+        <li><strong>Limitations:</strong> Struggles with functions that have complex oscillations or discontinuities.</li>
+    </ul>
+
+    <h2>2. Lebesgue–Stieltjes Integral</h2>
+    <p>
+        The Lebesgue–Stieltjes integral generalizes integration by considering both the value of the function and the variation of an integrator (or weighting function) <em>g(x)</em>.
+    </p>
+    <h3>Definition:</h3>
+    <p>
+        The Lebesgue–Stieltjes integral of a function <em>f(x)</em> with respect to a function <em>g(x)</em> is:
+    </p>
+    <pre>
+∫<sub>a</sub><sup>b</sup> f(x) dg(x)
+    </pre>
+    <p>
+        where <em>g(x)</em> is a function of bounded variation, which can be continuous, discontinuous, or have "jumps."
+    </p>
+
+    <h3>Main Features:</h3>
+    <ul>
+        <li><strong>Value-Based Approach:</strong> Divides the range of the function rather than the interval [<em>a</em>, <em>b</em>].</li>
+        <li><strong>Flexibility:</strong> Handles discontinuous, mixed (continuous and discrete), or measure-defined functions.</li>
+        <li><strong>Connection to Measures:</strong> The Lebesgue–Stieltjes integral is closely linked to measure theory: <em>g(x)</em> induces a measure <em>μ<sub>g</sub></em>, and the integral can be interpreted as a Lebesgue integral with respect to <em>μ<sub>g</sub></em>.</li>
+    </ul>
+
+    <h2>3. Key Differences</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Riemann</th>
+                <th>Lebesgue–Stieltjes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Main Question</strong></td>
+                <td>How much does the function grow over small intervals?</td>
+                <td>How much weight should be assigned to the function's values?</td>
+            </tr>
+            <tr>
+                <td><strong>Partitioning</strong></td>
+                <td>Divides the domain [<em>a</em>, <em>b</em>] into intervals.</td>
+                <td>Divides the function's range and uses an integrator <em>g(x)</em>.</td>
+            </tr>
+            <tr>
+                <td><strong>Applicability</strong></td>
+                <td>Continuous or almost continuous functions.</td>
+                <td>Discontinuous, mixed, or measure-related functions.</td>
+            </tr>
+            <tr>
+                <td><strong>Generalization</strong></td>
+                <td>A special case of the Lebesgue–Stieltjes integral.</td>
+                <td>Generalizes Riemann and applies to broader contexts.</td>
+            </tr>
+            <tr>
+                <td><strong>Main Use</strong></td>
+                <td>Classical analysis and calculus.</td>
+                <td>Probability, measure theory, statistics.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Applications</h2>
+    <h3>Riemann Integral:</h3>
+    <ul>
+        <li>Useful in classical applications of analysis, such as computing areas under smooth curves.</li>
+        <li>Designed for simple, regular functions.</li>
+    </ul>
+    <h3>Lebesgue–Stieltjes Integral:</h3>
+    <ul>
+        <li>Fundamental in probability, for example, to compute the expectation of a random variable <em>X</em> with respect to its cumulative distribution function <em>F(x)</em>:
+            <pre>
+E[X] = ∫<sub>-∞</sub><sup>∞</sup> x dF(x)
+            </pre>
+        </li>
+        <li>Crucial in measure theory to handle discrete, continuous, or mixed measures.</li>
+    </ul>
+    </div>
+
+    <div class="container">
+    <h1>Comparison of Riemann and Lebesgue Integrals</h1>
+
+    <!-- Section 1: Explanation of Riemann and Lebesgue -->
+    <div class="section">
+        <h2>Theoretical Overview</h2>
+        <p><strong>Riemann Integral:</strong> The Riemann integral approximates the area under a curve by summing up rectangles formed by partitioning the domain. This method works well for continuous functions or functions with few isolated discontinuities but fails for functions with many or dense discontinuities.</p>
+        <p><strong>Lebesgue Integral:</strong> The Lebesgue integral focuses on the range of the function, summing up "slices" of values weighted by their measure. It is particularly useful for functions with complex discontinuities, such as indicator functions of sets or highly irregular functions.</p>
+    </div>
+    
+    <!-- Section 2: Continuous Function Comparison -->
+    <div class="section">
+        <h2>Integrals of a Continuous Function</h2>
+        <div class="charts-container">
+            <div class="chart-container">
+                <h3>Riemann Integral (Continuous Function)</h3>
+                <canvas id="riemannContinuous"></canvas>
+                <div class="description">
+                    <p>For a continuous function, the Riemann integral works perfectly by summing the areas of rectangles under the curve. The approximation converges to the true area as the partition becomes finer.</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Lebesgue Integral (Continuous Function)</h3>
+                <canvas id="lebesgueContinuous"></canvas>
+                <div class="description">
+                    <p>The Lebesgue integral also handles continuous functions effectively but views the integration process differently. Instead of summing rectangles, it considers "slices" of the function's range, weighted by their measure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Highly Discontinuous Function -->
+    <div class="section">
+        <h2>Integrals of a Highly Discontinuous Function</h2>
+        <div class="charts-container">
+            <div class="chart-container">
+                <h3>Riemann Integral (Fails for Discontinuous Function)</h3>
+                <canvas id="riemannDiscontinuous"></canvas>
+                <div class="description">
+                    <p>For a function like the indicator of rationals, the Riemann integral fails because the function is discontinuous at every point. Rectangles cannot approximate the area under the curve effectively.</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Lebesgue Integral (Handles Discontinuous Function)</h3>
+                <canvas id="lebesgueDiscontinuous"></canvas>
+                <div class="description">
+                    <p>The Lebesgue integral can handle this function. It recognizes that the set of rationals has measure zero, so the integral evaluates to 0, even though the function is 1 on the rationals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Theoretical Explanation for Lebesgue Integral -->
+    <div class="description">
+        <h3>Why is the Lebesgue Integral Constant at 0?</h3>
+        <p>The function analyzed is:</p>
+        <p>
+            \[
+            f(x) = 
+            \begin{cases} 
+            1 & \text{if } x \text{ is rational} \\ 
+            0 & \text{if } x \text{ is irrational}.
+            \end{cases}
+            \]
+        </p>
+        <p>This function is highly discontinuous, with a dense set of discontinuities in any interval of the real line. However, the Lebesgue integral can handle this because it relies on the concept of measure:</p>
+        <ul>
+            <li>The set of rational numbers in \( [0, 1] \), \( \mathbb{Q} \cap [0, 1] \), has Lebesgue measure 0 (it is countable).</li>
+            <li>The function is 1 on this measure-zero set and contributes nothing to the integral (\( 1 \times 0 = 0 \)).</li>
+            <li>The function is 0 on the irrationals, which have a measure of 1, and contributes \( 0 \times 1 = 0 \).</li>
+        </ul>
+        <p>Therefore, the total Lebesgue integral is:</p>
+        <p>
+            \[
+            \int_0^1 f(x) \, dx = 0,
+            \]
+        </p>
+        <p>which is why the graph is represented as a constant line \( y = 0 \).</p>
+    </div>
+</div>
+
+<div class="container">
+    <h1>SSL/TLS Certificate Creation and Usage</h1>
+    <p>Follow the steps to understand how SSL/TLS certificates work.</p>
+    
+    <div class="step">
+        <h2>1. Generating the Private Key and CSR</h2>
+        <p>
+            <strong>Theoretical Description:</strong><br>
+            The private key and public key are the foundation of SSL/TLS encryption.  
+            The private key remains secret on the server and is used to sign data, while the public key is shared to encrypt communication.  
+            The server generates a CSR (Certificate Signing Request), a request signed with the private key that contains:
+            <ul>
+           <li>Domain name (e.g., www.example.com). </li> 
+           <li>Business information (if applicable).</li>   
+           <li>The public key. </li> 
+           </ul>
+            This request is the first step in obtaining an SSL/TLS certificate.
+        </p>
+        <button id="generateCsrBtn" onclick="generateCsr()">Generate CSR</button>
+        <div class="log" id="csrLog"></div>
+    </div>
+    
+    <div class="step">
+        <h2>2. Sending the CSR to the Certificate Authority (CA)</h2>
+        <p>
+            <strong>Theoretical Description:</strong><br>
+            The CSR is sent to a Certificate Authority (CA), a trusted entity.  
+            The CA verifies that the requester owns the domain through one of the following methods:  
+            <ul>
+                <li>Email Verification: The domain's administrative email receives a message to confirm ownership.</li>
+                <li>DNS Record: The owner adds a special record to the domain's DNS.</li>
+                <li>HTTP/HTTPS File: The owner uploads a special file to the server.</li>                                                               
+            </ul>
+            Once the identity is verified, the CA can issue the certificate.
+        </p>
+        <button id="sendCsrBtn" onclick="sendCsr()" disabled>Send CSR to CA</button>
+        <div class="log" id="caLog"></div>
+    </div>
+    
+    <div class="step">
+        <h2>3. Certificate Issuance by the CA</h2>
+        <p>
+            <strong>Theoretical Description:</strong><br>
+            The CA digitally signs the certificate using its private key, making it trusted by browsers.  
+            The certificate includes:
+            <ul>
+                <li>The domain name and requester's information.</li>
+                <li>The server's public key.</li>
+                <li>The CA's signature, certifying the authenticity and integrity of the certificate.</li>          
+            </ul>
+            The certificate is returned to the requester to be installed on the server, enabling secure connections.
+        </p>
+        <button id="issueCertBtn" onclick="issueCert()" disabled>Issue Certificate</button>
+        <div class="log" id="certLog"></div>
+    </div>
+    
+    <div class="step">
+        <h2>4. Establishing a Secure Connection</h2>
+        <p>
+            <strong>Theoretical Description:</strong><br>
+            When a client (e.g., a browser) accesses the website:  
+            <ul>
+                <li>The server sends the certificate to the client.</li>
+                <li>The client verifies the certificate's validity by checking the CA's signature and matching it to the requested domain.</li>
+                <li>If valid, the client and server negotiate a temporary key (called a session key) to encrypt the data.</li>
+            </ul>
+            This session key protects the data transmitted during the connection.
+        </p>
+        <button id="secureConnBtn" onclick="secureConnection()" disabled>Establish Secure Connection</button>
+        <div class="log" id="secureLog"></div>
+    </div>
+    
+    <br>
+    <br>
+    <div class="stats">
+        <h1>Statistical Evaluation of SSL/TLS Certificates</h1>
+        <p>
+            SSL/TLS certificates are crucial for ensuring cybersecurity. Let’s analyze some key statistics about their usage:
+        </p>
+        
+        <h2>1. Certificate Issuer Distribution</h2>
+        <p>
+            The market is dominated by a few Certificate Authorities (CAs):
+            <ul>
+                <li><strong>Let's Encrypt</strong>: Represents approximately <strong>60%</strong> of global certificates due to its free and automated policy.</li>
+                <li><strong>DigiCert</strong>: Preferred by enterprises for premium OV/EV certificates.</li>
+                <li><strong>Sectigo and GoDaddy</strong>: Popular for business websites.</li>
+            </ul>
+            This centralization improves standardization but can be a critical point of failure in case of compromise.
+        </p>
+    
+        <h2>2. Certificate Validity Periods</h2>
+        <p>
+            Since 2020, SSL/TLS certificates have a maximum validity period of <strong>1 year</strong>. This approach:
+            <ul>
+                <li>Reduces the risk of compromised keys or deprecated algorithms.</li>
+                <li>Encourages regular renewal, often automated, improving operational security.</li>
+            </ul>
+        </p>
+    
+        <h2>3. Geographic Distribution of Certificates</h2>
+        <p>
+            SSL/TLS certificate adoption varies globally:
+            <ul>
+                <li><strong>75%</strong> of certificates are issued in North America and Europe, where web security standards are more advanced.</li>
+                <li>Developing countries (India, Brazil) are experiencing rapid growth thanks to initiatives like Let's Encrypt.</li>
+                <li>Government and banking infrastructures in Asia and the Middle East primarily use OV and EV certificates for secure transactions.</li>
+            </ul>
+        </p>
+    
+        <h2>4. Types of Encryption Used</h2>
+        <p>
+            The cryptographic algorithms underlying SSL/TLS certificates include:
+            <ul>
+                <li><strong>RSA (2048-bit):</strong> Used in <strong>85%</strong> of certificates, it is reliable and widely supported.</li>
+                <li><strong>ECC (Elliptic Curve Cryptography):</strong> Faster and more secure than RSA, it is adopted in <strong>10-15%</strong> of modern certificates.</li>
+                <li><strong>AES (Advanced Encryption Standard):</strong> Used to encrypt communication, offering high security and performance.</li>
+            </ul>
+            Additionally, <strong>TLS 1.3</strong>, adopted by <strong>70%</strong> of HTTPS sites, eliminates weak algorithms, significantly enhancing security.
+        </p>
+    
+        <h2>Security Insights</h2>
+        <p>
+            <strong>Main Benefits:</strong>
+            <ul>
+                <li>Protection against attacks like phishing and certificate forgery.</li>
+                <li>Secure connections through advanced encryption and unique session keys.</li>
+                <li>Modern standards (e.g., TLS 1.3) reduce vulnerabilities to attacks.</li>
+            </ul>
+            <strong>Challenges:</strong>
+            <ul>
+                <li>Centralization of CAs can become a critical point of failure.</li>
+                <li>The increasing complexity of attacks requires the adoption of advanced algorithms like ECC and longer keys.</li>
+            </ul>
+        </p>
+    </div>
+    
+    
+</div>
+
+    <script>
+        // Continuous Function Data
+        const continuousData = {
+            labels: [-3, -2, -1, 0, 1, 2, 3],
+            datasets: [{
+                label: 'f(x) = e^(-x^2)',
+                data: [Math.exp(-9), Math.exp(-4), Math.exp(-1), 1, Math.exp(-1), Math.exp(-4), Math.exp(-9)],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        };
+
+        // Discontinuous Function Data
+        const riemannDiscontinuousData = {
+            labels: [0, 0.25, 0.5, 0.75, 1],
+            datasets: [{
+                label: 'Riemann (Approximation of Discontinuous Function)',
+                data: [1, 0, 1, 0, 1], // Fails to capture true behavior
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true,
+                stepped: true
+            }]
+        };
+
+        const lebesgueDiscontinuousData = {
+            labels: [0, 0.25, 0.5, 0.75, 1],
+            datasets: [{
+                label: 'Lebesgue (Discontinuous Function)',
+                data: [0, 0, 0, 0, 0], // Properly integrates to 0 due to measure-zero set
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true
+            }]
+        };
+
+        // Chart options
+        const options = { responsive: true, scales: { x: { beginAtZero: true }, y: { min: -0.5, max: 1.5 } } };
+
+        // Create Charts
+        new Chart(document.getElementById('riemannContinuous'), { type: 'line', data: continuousData, options });
+        new Chart(document.getElementById('lebesgueContinuous'), { type: 'line', data: continuousData, options });
+        new Chart(document.getElementById('riemannDiscontinuous'), { type: 'line', data: riemannDiscontinuousData, options });
+        new Chart(document.getElementById('lebesgueDiscontinuous'), { type: 'line', data: lebesgueDiscontinuousData, options });
+    </script>
+
+    <script>
+        let csrGenerated = false;
+        let certIssued = false;
+
+        function generateCsr() {
+            const log = document.getElementById('csrLog');
+            log.textContent = "Private key and CSR generated: { 'CN': 'www.ex.com', 'key': 'public_key' }";
+            document.getElementById('sendCsrBtn').disabled = false;
+        }
+
+        function sendCsr() {
+            const log = document.getElementById('caLog');
+            log.textContent = "CSR sent to the CA. Verifying domain ownership...";
+            setTimeout(() => {
+                log.textContent += "\nVerification completed: domain confirmed!";
+                document.getElementById('issueCertBtn').disabled = false;
+            }, 2000);
+        }
+
+        function issueCert() {
+            const log = document.getElementById('certLog');
+            log.textContent = "Certificate issued: { 'CN': 'www.ex.com', 'CA': 'Let's Encrypt', 'valid_until': '12/2024' }";
+            certIssued = true;
+            document.getElementById('secureConnBtn').disabled = false;
+        }
+
+        function secureConnection() {
+            if (!certIssued) return;
+            const log = document.getElementById('secureLog');
+            log.textContent = "Secure connection established! Data encrypted with a session key.";
+        }
+    </script>
+
+</body>
+</html>
